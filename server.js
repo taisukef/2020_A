@@ -17,7 +17,8 @@ class MyServer extends Server {
             return json;
         } else if (path === "/api/getquest") {
             const json = JSON.parse(Deno.readTextFileSync('./quest.json'));
-            json.map(dat => { delete dat.answer; });
+            // 答えを除く時は以下を実行
+            // json.map(dat => { delete dat.answer; });
             return json;
         }
     }
