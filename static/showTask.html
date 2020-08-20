@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="jp">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>課題選択</title>
+</head>
+
+<body>
+	<h1>課題選択画面</h1>
+	<h2>課題一覧</h2>
+	<ul id="tasks"></ul>
+	<script type="module">
+		main();
+		async function main() {
+			const res = await (await fetch("/api/gettask")).json();
+			for (let i = 0; i < res.length; i++) {
+				const li = document.createElement("li");
+				li.textContent = res[i].question;
+				tasks.appendChild(li);
+			}
+		}
+
+	</script>
+</body>
+
+</html>
