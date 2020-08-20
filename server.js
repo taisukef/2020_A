@@ -9,11 +9,7 @@ class MyServer extends Server {
             if (dup === undefined) {
                 json.push(req);
             } else {
-                json.find(dat => {
-                    if (dat.id === req.id) {
-                        dat.time = req.time;
-                    }
-                });
+                dup.time = req.time;
             }
             Deno.writeTextFileSync("./alarm.json", JSON.stringify(json));
         } else if (path === "/api/getalarm") {
