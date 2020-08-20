@@ -1,25 +1,19 @@
 <!DOCTYPE html>
-<html><body>
+<html lang="jp">
 
-ID : <input type="number" id="userid"><br>
-alarm : <input type="text" id="time"><br>
-<button id="btn">設定</button>
-<br><br><br>
-res:<br>
-<textarea id="ta" style="width:60vw; height:8em;"></textarea>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>オンライン授業になって朝がつらい高専生が、朝決めた時間に起きることで生活リズムを整えるやーつ</title>
+</head>
 
-<script type="module">
-import { fetchJSON } from "https://code4sabae.github.io/js/fetchJSON.js";
+<body>
+    <h1>オンライン授業になって朝がつらい高専生が、朝決めた時間に起きることで生活リズムを整えるやーつ</h1>
 
-// 設定ボタンを押したときサーバに id と time を送信
-btn.onclick = async () => {
-  const req = { id: parseInt(document.getElementById("userid").value), time: parseInt(document.getElementById("time").value) };
-  const url = "http://localhost:8881/api/setalarm";
-  const res = await fetchJSON(url, req);
-  console.log(res);
-  ta.value = JSON.stringify(res);
-};
+    <ol>
+        <li><a href="setAlarm.html">起床時間の設定</a></li>
+    </ol>
 
-</script>
 </body>
+
 </html>
