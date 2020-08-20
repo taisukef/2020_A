@@ -15,6 +15,10 @@ class MyServer extends Server {
         } else if (path === "/api/getalarm") {
             const json = JSON.parse(Deno.readTextFileSync('./alarm.json'));
             return json;
+        } else if (path === "/api/getquest") {
+            const json = JSON.parse(Deno.readTextFileSync('./quest.json'));
+            json.map(dat => { delete dat.answer; });
+            return json;
         }
     }
 }
