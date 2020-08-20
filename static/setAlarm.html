@@ -9,16 +9,19 @@
 
 <body>
 	<h1>起床時間の設定</h1>
-	<p id="RealtimeClockArea"></p>
-	<script>
-		var today = new Date();
-		var year = today.getFullYear();
-		var month = today.getMonth() + 1;
-		var week = today.getDay();
-		var day = today.getDate();
-		var week_ja = new Array("日", "月", "火", "水", "木", "金", "土");
-		document.write(year + "年" + month + "月" + day + "日" + week_ja[week] + "曜日");
-	</script>
+	 <h1 id="time"></h1>
+	
+    <script>
+    time();
+    function time(){
+        var now = new Date();
+        document.getElementById("time").innerHTML = now.toLocaleString();
+    }
+    setInterval('time()',1000);
+    </script>
+
+
+
 	<script>
 		async function set(e) {
 			const data = document.getElementById("time");

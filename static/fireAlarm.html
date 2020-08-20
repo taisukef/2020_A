@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html><body>
+    Your ID : <div id="id"></div>
+    <div id="text"> Not yet </div>
+
+    <!-- <script src="../js/compareTime.js"></script> -->
+    <script type="module">
+
+        import { fetchJSON } from "https://code4sabae.github.io/js/fetchJSON.js";
+        import { idMaker } from "./js/idMaker.js";
+        import { compareTime } from "./js/compareTime.js";
+
+
+
+        // 仮の設定時間の定義
+        window.onload = async function () {
+
+
+            let myId = idMaker();
+            document.getElementById("id").innerHTML= myId;
+
+
+
+            var json =await (await fetch("/api/getalarm")).json();
+            const dup = json.find((dat) => dat.id === myId);
+            if (dup === undefined) {
+                console.log("起きる時刻を設定してください");
+                // window.location = "./setAlarm.html";
+            } else {
+                console.log("----");
+                console.log(dup.id);
+                console.log(dup.time);
+            }
+            var cnt = setInterval(function(){
+                var cmp = compareTime(dup.time);
+                if(cmp >= 0) {
+                    const notification = new Notification("It's time now!");
+                    document.getElementById("text").innerHTML= "good morning";
+                    clearInterval(cnt);
+                    // cmp(compareTimeの返り値)が0以上なら時間が過ぎているのでループを抜ける
+                }
+
+            },100);
+            // 100msごとにまわしている
+
+        }
+
+    </script>
+</body></html>
