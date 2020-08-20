@@ -1,0 +1,18 @@
+[
+    {
+        "question":"1から10まで数字を全部足すと？",
+        "answer":1,
+        "answerList":["50","55","47","70"],
+        "author":"すずとも",
+        "difficulty":"C",
+        "point":10
+    },
+    {
+        "question":"√4=?",
+        "answer":0,
+        "answerList":["2", "-2", "±2", "定義されない"],
+        "author":"はーど",
+        "difficulty":"D",
+        "point":15
+    }
+]
