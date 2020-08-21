@@ -53,7 +53,8 @@
 	<script type="module">
 		import { fetchJSON } from "https://code4sabae.github.io/js/fetchJSON.js";
 
-		window.onload = () => {
+		var idtmp= "";
+		window.onload = async () => {
 			// 通知を許可するかユーザに問いかける
 			navigator.serviceWorker.register("sw.js").then(() => {
 				Notification.requestPermission(function (permission) {
@@ -62,6 +63,7 @@
 					}
 				});
 			});
+			const uuid = await (await fetch("/api/getid")).json();
 		}
 		function getCookieArray() {
 			var arr = new Array();
@@ -80,7 +82,8 @@
 		var uuid = "";
 
 		if (arr['uuid'] === undefined) {
-			uuid = generateUuid();
+			generateUuid();
+			uuid = idtmp;
 			document.cookie = "uuid=" + uuid + "; expires= Mon, 31 Aug 2030 00:00:00 GMT";   // cookie作成
 		}
 		else {
@@ -90,8 +93,7 @@
 		console.log(uuid);
 
 		async function generateUuid() {
-			const uuid = await (await fetch("/api/getid")).json();
-			return uuid;
+			idtmp = await (await fetch("/api/getid")).json();
 		}
 
 
