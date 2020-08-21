@@ -3,7 +3,7 @@ import { Server } from "https://code4sabae.github.io/js/Server.js"
 class MyServer extends Server {
     api(path, req) {
 
-        // アラームを追加する
+        // アラームを追加する ( req = {アラームのデータ} )
         if (path === "/api/setalarm") {
             var json = JSON.parse(Deno.readTextFileSync('./alarm.json'));
             // 重複を確認 なければ追加 あれば更新
@@ -23,7 +23,7 @@ class MyServer extends Server {
             return json;
         }
         
-        // 問題を追加する
+        // 問題を追加する ( req = {問題データ} )
         else if (path === "/api/setquest") {
             const json = JSON.parse(Deno.readTextFileSync('./quest.json'));
             const jsondoc = json;
@@ -47,6 +47,18 @@ class MyServer extends Server {
             // 答えを除く時は以下を実行
             // json.map(dat => { delete dat.answer });
             return json;
+        }
+
+        // 答え合わせをする ( req = {"questId": ~~~, "answer": ~~~} )
+        else if (path === "/api/checkans") {
+            const json = JSON.parse(Deno.readTextFileSync('./quest.json'));
+            const org = json.find(dat => dat.questId === req.questId);
+            if (org.answer === req.answer) {
+                var rlt = "correct";
+            } else {
+                var rlt = "incorrect";
+            }
+            return { result: rlt, answer: org.answer };
         }
     }
 }
