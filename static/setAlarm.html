@@ -65,18 +65,16 @@
 
 	<script type="module">
 		import { fetchJSON } from "https://code4sabae.github.io/js/fetchJSON.js";
+		import { getUuid } from "./util.js";
 
 		var uuid = ""
 
 		window.onload = async () => {
 			// cookie読み込み
-			var arr = getCookieArray();
-			if (arr['uuid'] === undefined) {
+			var uuid = getUuid();
+			if (uuid === undefined) {
 				uuid = await generateUuid();
 				document.cookie = "uuid=" + uuid + "; expires= Mon, 31 Aug 2030 00:00:00 GMT";   // cookie作成
-			}
-			else {
-				uuid = arr['uuid'];
 			}
 			console.log(uuid);
 
@@ -89,19 +87,6 @@
 				});
 			});
 		}
-
-		function getCookieArray() {
-			var arr = new Array();
-			if (document.cookie != '') {
-				var tmp = document.cookie.split('; ');
-				for (var i = 0; i < tmp.length; i++) {
-					var data = tmp[i].split('=');
-					arr[data[0]] = decodeURIComponent(data[1]);
-				}
-			}
-			return arr;
-		}
-
 
 		async function generateUuid() {
 			const res = await fetchJSON("/api/getid");

@@ -56,7 +56,9 @@
 					ta.value = "回答が選択されていません";
 				} else {
 					const res = await fetchJSON("/api/checkans", {
-						questId: selectedQuestid, answer: answer,
+						//userId: uuid,
+						questId: selectedQuestid,
+						answer: answer,
 					});
 					if (res.result === "correct") {
 						ta.value = "正解！！！";
@@ -78,7 +80,6 @@
 
 		document.getElementById("sort-type").onchange = function () {
 			const difficultyList = ["S", "A", "B", "C", "D", "E"];
-			console.log(this.value);
 			let questList = [];
 			if (this.value === "standard") {
 				// そのまま並べる
