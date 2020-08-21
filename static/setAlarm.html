@@ -84,6 +84,46 @@
 				});
 			});
 		}
+		function getCookieArray() {
+			var arr = new Array();
+			if (document.cookie != '') {
+				var tmp = document.cookie.split('; ');
+				for (var i = 0; i < tmp.length; i++) {
+					var data = tmp[i].split('=');
+					arr[data[0]] = decodeURIComponent(data[1]);
+				}
+			}
+			return arr;
+		}
+		// keyを指定して取得
+		// 「 key1=val1; key2=val2; key3=val3; ・・・ 」というCookie情報が保存されているとする
+		var arr = getCookieArray();
+		var uuid = ""
+		if (arr['uuid'] === undefined) {
+			uuid = generateUuid();
+			document.cookie = "uuid=" + uuid + "; expires= Mon, 31 Aug 2030 00:00:00 GMT";   // cookie作成
+		}
+		else {
+			uuid = arr['uuid'];
+			// cookie読み込み
+		}
+		console.log(uuid);
+
+		function generateUuid() {
+			let chars = "xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx".split("");
+			for (let i = 0, len = chars.length; i < len; i++) {
+				switch (chars[i]) {
+					case "x":
+						chars[i] = Math.floor(Math.random() * 16).toString(16);
+						break;
+					case "y":
+						chars[i] = (Math.floor(Math.random() * 4) + 8).toString(16);
+						break;
+				}
+			}
+			return chars.join("");
+		}
+
 
 		const inputForm = document.getElementById("input-form");
 		inputForm.addEventListener('submit', async (event) => {
@@ -95,10 +135,13 @@
 			if (isNaN(utc)) {
 				ta.value = "入力したデータが無効です";
 			} else {
-				const res = await fetchJSON("/api/setalarm", { id: 0, time: utc });
+				const res = await fetchJSON("/api/setalarm", { id: uuid, time: utc });
 				ta.value = JSON.stringify(res);
 			}
 		});
+
+
+	</script>
 	</script>
 </body>
 
