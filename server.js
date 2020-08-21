@@ -48,6 +48,10 @@ class MyServer extends Server {
             // json.map(dat => { delete dat.answer });
             return json;
         }
+        else if (path === "/api/getid") {
+            const uuid = v4.generate();
+            return uuid;
+        }
     }
 }
 
