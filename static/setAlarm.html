@@ -4,24 +4,13 @@
 <head>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<link rel= "stylesheet" href="./set.css">
 	<title>時刻設定</title>
-	
 </head>
 
 <body>
+	<h1>起床時間の設定</h1>
+	<h1 id="time"></h1>
 
-	<font1><h1>起床時間の設定</h1> </font1>
-	<hr color="red">
-
-<br><br><br>
-
-	 <center>
-		<font1><h1 id="time"></h1> </font1>
-	</center>
-
-<br><br>
-	
     <script>
     time();
     function time(){
@@ -55,26 +44,17 @@
 		}
 	</script>
 	<form id="input-form">
-
-<br><br>
-	<center>	
-	<input type="datetime-local" id="datetime">
-
-<br><br><br>
-		
-			<input type="submit" value"送信" class="button">
-	</center>
-	
+		<input type="datetime-local" id="datetime">
+		<input type="submit" value="送信">
 	</form>
-<br><br><br>
-	<font1>res:</font1>
-<br>
+	res:<br>
 	<textarea id="ta" style="width:60vw; height:8em;"></textarea>
 
 	<script type="module">
 		import { fetchJSON } from "https://code4sabae.github.io/js/fetchJSON.js";
 
-		window.onload = () => {
+		var idtmp= "";
+		window.onload = async () => {
 			// 通知を許可するかユーザに問いかける
 			navigator.serviceWorker.register("sw.js").then(() => {
 				Notification.requestPermission(function (permission) {
@@ -83,6 +63,7 @@
 					}
 				});
 			});
+			const uuid = await (await fetch("/api/getid")).json();
 		}
 		function getCookieArray() {
 			var arr = new Array();
@@ -98,9 +79,11 @@
 		// keyを指定して取得
 		// 「 key1=val1; key2=val2; key3=val3; ・・・ 」というCookie情報が保存されているとする
 		var arr = getCookieArray();
-		var uuid = ""
+		var uuid = "";
+
 		if (arr['uuid'] === undefined) {
-			uuid = generateUuid();
+			generateUuid();
+			uuid = idtmp;
 			document.cookie = "uuid=" + uuid + "; expires= Mon, 31 Aug 2030 00:00:00 GMT";   // cookie作成
 		}
 		else {
@@ -109,19 +92,8 @@
 		}
 		console.log(uuid);
 
-		function generateUuid() {
-			let chars = "xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx".split("");
-			for (let i = 0, len = chars.length; i < len; i++) {
-				switch (chars[i]) {
-					case "x":
-						chars[i] = Math.floor(Math.random() * 16).toString(16);
-						break;
-					case "y":
-						chars[i] = (Math.floor(Math.random() * 4) + 8).toString(16);
-						break;
-				}
-			}
-			return chars.join("");
+		async function generateUuid() {
+			idtmp = await (await fetch("/api/getid")).json();
 		}
 
 
@@ -146,4 +118,3 @@
 </body>
 
 </html>
-
