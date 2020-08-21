@@ -54,9 +54,9 @@ class MyServer extends Server {
             const json = JSON.parse(Deno.readTextFileSync('./quest.json'));
             const org = json.find(dat => dat.questId === req.questId);
             if (org.answer === req.answer) {
-                var rlt = "collect";
+                var rlt = "correct";
             } else {
-                var rlt = "incollect";
+                var rlt = "incorrect";
             }
             return { result: rlt, answer: org.answer };
         }
