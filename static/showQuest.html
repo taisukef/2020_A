@@ -55,8 +55,8 @@
 				if (isNaN(answer)) {
 					ta.value = "回答が選択されていません";
 				} else {
-					const res = await fetchJSON("/api/sendanswer", {
-						userid: uuid, questid: selectedQuestid, answer: answer,
+					const res = await fetchJSON("/api/checkans", {
+						questId: selectedQuestid, answer: answer,
 					});
 					ta.value = JSON.stringify(res);
 				}
@@ -94,7 +94,7 @@
 				const li = document.createElement("li");
 				li.textContent = `${questList[i].question} 難易度：${questList[i].difficulty} ポイント：${questList[i].point}`;
 				li.onclick = () => {
-					selectedQuestid = i;
+					selectedQuestid = questList[i].questId;
 					question.textContent = questList[i].question;
 
 					const answerList = document.getElementById("answer-list");
