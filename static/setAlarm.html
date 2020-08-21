@@ -4,12 +4,23 @@
 <head>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link rel= "stylesheet" href="./set.css">
 	<title>時刻設定</title>
+	
 </head>
 
 <body>
-	<h1>起床時間の設定</h1>
-	 <h1 id="time"></h1>
+
+	<font1><h1>起床時間の設定</h1> </font1>
+	<hr color="red">
+
+<br><br><br>
+
+	 <center>
+		<font1><h1 id="time"></h1> </font1>
+	</center>
+
+<br><br>
 	
     <script>
     time();
@@ -44,10 +55,20 @@
 		}
 	</script>
 	<form id="input-form">
-		<input type="datetime-local" id="datetime">
-		<input type="submit" value="送信">
+
+<br><br>
+	<center>	
+	<input type="datetime-local" id="datetime">
+
+<br><br><br>
+		
+			<input type="submit" value"送信" class="button">
+	</center>
+	
 	</form>
-	res:<br>
+<br><br><br>
+	<font1>res:</font1>
+<br>
 	<textarea id="ta" style="width:60vw; height:8em;"></textarea>
 
 	<script type="module">
@@ -82,3 +103,4 @@
 </body>
 
 </html>
+
