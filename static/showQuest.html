@@ -22,7 +22,17 @@
 	</div>
 
 	<h2>ミッション一覧</h2>
-	<ul id="quests"></ul>
+	<div id="missions">
+		<span>並び順：</span>
+		<select id="sort-type">
+			<option value="standard">標準</option>
+			<option value="difficulty-up">難易度（昇順）</option>
+			<option value="difficulty-down">難易度（降順）</option>
+			<option value="point">獲得ポイント</option>
+		</select>
+		<ul id="quests"></ul>
+	</div>
+
 	<script type="module">
 		import { fetchJSON } from "https://code4sabae.github.io/js/fetchJSON.js";
 		import { getUuid } from "./util.js";
@@ -55,16 +65,41 @@
 
 		async function getQuest() {
 			questJson = await (await fetch("/api/getquest")).json();
-			for (let i = 0; i < questJson.length; i++) {
+			document.getElementById("sort-type").onchange();
+		}
+
+		document.getElementById("sort-type").onchange = function () {
+			const difficultyList = ["S", "A", "B", "C", "D", "E"];
+			console.log(this.value);
+			let questList = [];
+			if (this.value === "standard") {
+				// そのまま並べる
+				questList = questList.concat(questJson);
+			} else if (this.value === "difficulty-up") {
+				difficultyList.forEach(d => {
+					questList = questList.concat(questJson.filter(e => e.difficulty === d));
+				});
+			} else if (this.value === "difficulty-down") {
+				difficultyList.reverse().forEach(d => {
+					questList = questList.concat(questJson.filter(e => e.difficulty === d));
+				});
+			} else if (this.value === "point") {
+				questList = questList.concat(questJson);
+				questList.sort((a, b) => b.point - a.point);
+			}
+
+			// リスト作成
+			quests.innerHTML = "";
+			for (let i = 0; i < questList.length; i++) {
 				const li = document.createElement("li");
-				li.textContent = questJson[i].question;
+				li.textContent = `${questList[i].question} 難易度：${questList[i].difficulty} ポイント：${questList[i].point}`;
 				li.onclick = () => {
 					selectedQuestid = i;
-					question.textContent = questJson[i].question;
+					question.textContent = questList[i].question;
 
 					const answerList = document.getElementById("answer-list");
 					answerList.innerHTML = "";
-					questJson[i].answerList.forEach((e, idx) => {
+					questList[i].answerList.forEach((e, idx) => {
 						const lavel = document.createElement("label");
 						const choice = document.createElement("input");
 						choice.type = "radio";
