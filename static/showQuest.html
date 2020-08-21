@@ -58,7 +58,15 @@
 					const res = await fetchJSON("/api/checkans", {
 						questId: selectedQuestid, answer: answer,
 					});
-					ta.value = JSON.stringify(res);
+					if (res.result === "correct") {
+						ta.value = "正解！！！";
+					} else if (res.result === "incorrect") {
+						ta.value = `不正解！\n正解は${questJson[selectedQuestid].answerList[res.answer]}でした！`;
+					}
+					else {
+						ta.value = JSON.stringify(res);
+					}
+					document.getElementById("answer-send").disabled = true;
 				}
 			}
 		}
